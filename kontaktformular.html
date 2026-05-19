@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontaktformular - Cookverse</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="content-page">
+    <header class="top-menu" aria-label="Top menu">
+        <nav class="top-menu__nav" aria-label="Internal pages">
+            <a class="top-menu__link" href="index.html">Main Menu</a>
+            <a class="top-menu__link" href="recept-market.html">Market</a>
+            <a class="top-menu__link" href="tre-ratters-meny.html">Ahmeds Val</a>
+            <a class="top-menu__link is-active" href="kontaktformular.html">Kontakta</a>
+            <a class="top-menu__link" href="upphovsratt.html">Upphovsrätt</a>
+        </nav>
+    </header>
+    <main class="content-page__body">
+        <article class="content-card">
+            <h1>Kontakta mig</h1>
+            <p>Du kan nå mig via följande kanaler för frågor, förslag, feedback eller licensöverenskommelser angående bilder och design.</p>
+            
+            <section class="contact-section">
+                <h2>Direktkontakt</h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span class="contact-label">📱 Telefon:</span>
+                        <a href="tel:0733409843" class="contact-link">0733409843</a>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">✉️ E-post:</span>
+                        <a href="mailto:mouhib.enterprices@outlook.com" class="contact-link">mouhib.enterprices@outlook.com</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="contact-section">
+                <h2>Meddelande</h2>
+                <form class="contact-form" action="#" method="POST">
+                    <div class="form-group">
+                        <label for="name">Namn:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">E-post:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Ämne:</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Meddelande:</label>
+                        <textarea id="message" name="message" rows="6" required></textarea>
+                    </div>
+                    
+                    <p class="form-status" aria-live="polite"></p>
+                    <button type="submit" class="submit-btn">Skicka meddelande</button>
+                </form>
+            </section>
+
+            <a class="content-back" href="index.html">← Tillbaka till menyn</a>
+        </article>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

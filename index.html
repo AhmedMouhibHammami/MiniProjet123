@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookverse Archives</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="loader" class="loader" aria-live="polite">
+    <p class="loader__text">Loading...</p>
+  </div>
+
+  <main id="mainScene" class="scene scene--hidden">
+    <header class="hero-text">
+      <h1>Cookverse</h1>
+      <p>Alla recept i en plats</p>
+    </header>
+
+    <button id="startGameBtn" class="start-btn" type="button"><span class="start-btn__text">Start the game</span></button>
+
+    <nav id="gameMenu" class="game-menu" aria-label="Game menu">
+      <ul class="game-menu__item">
+        <li>
+          <a class="menu-item is-active" href="fortsatt-recept.html">
+            Dagens rätt
+            <span class="menu-item__arrow">&rsaquo;</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="game-menu__item">
+        <li>
+          <a class="menu-item" href="recept-market.html">
+            Recept Market
+            <span class="menu-item__arrow">&rsaquo;</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="game-menu__item">
+        <li>
+          <a class="menu-item" href="tre-ratters-meny.html">
+            Ahmeds Val
+            <span class="menu-item__arrow">&rsaquo;</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="game-menu__item">
+        <li>
+          <a class="menu-item" href="kontaktformular.html">
+            Kontaktformular
+            <span class="menu-item__arrow">&rsaquo;</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="game-menu__item">
+        <li>
+          <a class="menu-item" href="upphovsratt.html">
+            Upphovsratt
+            <span class="menu-item__arrow">&rsaquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </main>
+    <script src="script.js"></script>
+</body>
+</html>

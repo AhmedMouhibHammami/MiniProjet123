@@ -1,0 +1,1344 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Lobster&display=swap");
+
+/* Globala färger och grundinställningar */
+:root {
+    --mist: #e9e4d6;
+    --ink: #16222d;
+    --ink-deep: #0d151c;
+    --gold: #dab067;
+    --gold-dim: #8f6d38;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    color: #fff7d6;
+    background: #000;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: none;
+}
+
+body::after {
+    content: none;
+}
+
+/* Laddskärm på startsidan */
+.loader {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(9, 9, 9, 0.78);
+    z-index: 20;
+    transition: opacity 260ms ease;
+}
+
+.loader--hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loader__text {
+    margin: 0;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(1rem, 2.4vw, 1.4rem);
+    color: #f8f3e6;
+    text-shadow: 0 0 10px rgba(255, 255, 245, 0.7);
+    animation: pulseText 1200ms ease-in-out infinite;
+}
+
+/* Startsida med titel, knapp och meny */
+.scene {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px;
+    opacity: 1;
+    transition: opacity 260ms ease;
+}
+
+.scene--hidden {
+    opacity: 0;
+}
+
+.hero-text {
+    position: absolute;
+    left: 50%;
+    top: 35%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.62);
+    margin-top: 0;
+    z-index: 2;
+}
+
+.hero-text h1 {
+    margin: 0;
+    font-family: "Lobster", cursive;
+    font-size: clamp(4rem, 13vw, 10rem);
+    letter-spacing: 0.02em;
+    color: #f7f2dc;
+    line-height: 0.95;
+    text-transform: none;
+    text-shadow:
+        -2px 0 0 #8a6b3d,
+        0 2px 0 #8a6b3d,
+        2px 0 0 #8a6b3d,
+        0 -2px 0 #8a6b3d,
+        0 8px 20px rgba(0, 0, 0, 0.72);
+}
+
+.hero-text p {
+    margin: 6px 0 0;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(0.6rem, 1.2vw, 1rem);
+    color: rgba(247, 236, 197, 0.9);
+    letter-spacing: 0.15em;
+}
+
+.start-btn {
+    position: absolute;
+    left: 50%;
+    top: 54%;
+    transform: translate(-50%, -50%) translateY(12px);
+    border: 2px solid rgba(241, 226, 181, 0.78);
+    border-radius: 999px;
+    padding: 12px 30px;
+    min-width: min(90vw, 300px);
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    letter-spacing: 0.06em;
+    color: #f6efcf;
+    background: rgba(7, 7, 7, 0.75);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.48), inset 0 0 22px rgba(245, 226, 173, 0.16);
+    text-transform: uppercase;
+    cursor: pointer;
+    opacity: 0;
+    transition: transform 260ms ease, opacity 260ms ease, filter 220ms ease;
+    z-index: 4;
+}
+
+.start-btn__text {
+    display: inline-block;
+    animation: pulseText 1200ms ease-in-out infinite;
+}
+
+.start-btn.is-visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0);
+}
+
+.start-btn:hover {
+    filter: brightness(1.15);
+}
+
+.start-btn:active {
+    transform: translate(-50%, -50%) translateY(1px) scale(0.99);
+}
+
+.start-btn.is-started {
+    color: #fffdf7;
+    border-color: #fff4df;
+}
+
+.start-btn.is-started .start-btn__text {
+    animation: none;
+}
+
+.start-btn.start-btn--hidden {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateY(18px);
+    pointer-events: none;
+}
+
+/* Dold meny som visas efter start */
+.game-menu {
+    position: absolute;
+    left: clamp(10px, 2.4vw, 22px);
+    top: auto;
+    bottom: clamp(10px, 2.4vw, 22px);
+    width: min(92vw, 340px);
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+    border: 0;
+    backdrop-filter: none;
+    box-shadow: none;
+    z-index: 3;
+}
+
+.game-menu.is-visible {
+    display: flex;
+    animation: menuReveal 300ms ease;
+}
+
+.game-menu__item {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(0.82rem, 1.9vw, 1.55rem);
+    font-weight: 700;
+    line-height: 1.07;
+    white-space: nowrap;
+    color: rgba(247, 240, 224, 0.94);
+    text-shadow:
+        -2px 0 0 var(--gold-dim),
+        0 2px 0 var(--gold-dim),
+        2px 0 0 var(--gold-dim),
+        0 -2px 0 var(--gold-dim),
+        0 8px 16px rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+    padding: 4px 0;
+    text-decoration: none;
+    transition: transform 160ms ease, filter 160ms ease, opacity 160ms ease;
+}
+
+.menu-item:visited {
+    color: rgba(247, 240, 224, 0.94);
+}
+
+.menu-item.is-active {
+    color: #fff7dd;
+    text-shadow:
+        -2px 0 0 #7a5c31,
+        0 2px 0 #7a5c31,
+        2px 0 0 #7a5c31,
+        0 -2px 0 #7a5c31,
+        0 10px 16px rgba(0, 0, 0, 0.42);
+}
+
+.menu-item__arrow {
+    display: inline-block;
+    margin-left: 14px;
+    color: #f39d3d;
+    font-size: 0.85em;
+    text-shadow:
+        -2px 0 #244972,
+        0 2px #244972,
+        2px 0 #244972,
+        0 -2px #244972;
+}
+
+.menu-item:not(.is-active) .menu-item__arrow {
+    color: #f39d3d;
+}
+
+.menu-item:hover {
+    transform: translateX(6px);
+    filter: brightness(1.07);
+}
+
+.menu-item:not(.is-active) {
+    opacity: 0.78;
+}
+
+.menu-item:not(.is-active):hover {
+    opacity: 1;
+}
+
+/* Grundlayout för innehållssidor */
+.content-page {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    color: #f7f2dc;
+    background: #000;
+}
+
+.top-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 14px 18px;
+    width: 100%;
+    border-bottom: 1px solid rgba(241, 226, 181, 0.18);
+    background: rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(4px);
+}
+
+.top-menu__nav {
+    flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(12px, 3vw, 42px);
+    flex-wrap: wrap;
+}
+
+.top-menu__link {
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(0.82rem, 1.8vw, 1.2rem);
+    color: rgba(247, 240, 224, 0.72);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    transition: color 160ms ease, opacity 160ms ease, transform 160ms ease;
+}
+
+.top-menu__link:hover {
+    color: #f6efcf;
+    transform: translateY(-1px);
+}
+
+.top-menu__link.is-active {
+    color: #f6efcf;
+    text-shadow: 0 0 12px rgba(255, 243, 214, 0.35);
+}
+
+.content-card {
+    width: min(92vw, 760px);
+    padding: clamp(18px, 4vw, 34px);
+    border: 1px solid rgba(241, 226, 181, 0.35);
+    border-radius: 18px;
+    background: rgba(8, 12, 16, 0.72);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
+}
+
+.content-page__body {
+    flex: 1;
+    display: grid;
+    place-items: center;
+    padding: clamp(18px, 4vw, 42px);
+}
+
+.content-card h1 {
+    margin: 0;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(1.4rem, 3.6vw, 2.5rem);
+    color: #f6efcf;
+}
+
+.content-card p {
+    margin: 14px 0 0;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(0.92rem, 2vw, 1.1rem);
+    color: rgba(247, 240, 224, 0.9);
+    line-height: 1.55;
+}
+
+.content-back {
+    display: inline-block;
+    margin-top: 22px;
+    font-family: "Cinzel Decorative", serif;
+    font-size: 0.88rem;
+    color: #f0dcb0;
+    text-decoration: none;
+    border: 1px solid rgba(241, 226, 181, 0.65);
+    border-radius: 999px;
+    padding: 8px 16px;
+    transition: filter 160ms ease;
+}
+
+/* Receptsida styling */
+.recipe-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: clamp(18px, 4vw, 42px);
+    gap: 28px;
+}
+
+.recipe-content {
+    width: 100%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(24px, 4vw, 40px);
+    padding: clamp(18px, 4vw, 34px);
+    border: 1px solid rgba(241, 226, 181, 0.35);
+    border-radius: 18px;
+    background: rgba(8, 12, 16, 0.72);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
+}
+
+.recipe-text {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.recipe-text h1 {
+    margin: 0;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: #f6efcf;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.recipe-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.recipe-section h2 {
+    margin: 0;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    color: #dab067;
+    border-bottom: 1px solid rgba(218, 176, 103, 0.4);
+    padding-bottom: 8px;
+}
+
+.ingredients-list,
+.instructions-list {
+    margin: 0;
+    padding-left: 24px;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+    color: rgba(247, 240, 224, 0.9);
+    line-height: 1.8;
+}
+
+.ingredients-list li,
+.instructions-list li {
+    margin-bottom: 8px;
+}
+
+.instructions-list li strong {
+    color: #dab067;
+}
+
+.recipe-section p {
+    margin: 0;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+    color: rgba(247, 240, 224, 0.85);
+    line-height: 1.65;
+    font-style: italic;
+}
+
+/* Media gallery styling */
+.media-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.media-gallery h2 {
+    margin: 0;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    color: #dab067;
+    text-align: center;
+    border-bottom: 1px solid rgba(218, 176, 103, 0.4);
+    padding-bottom: 8px;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    width: 100%;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1px solid rgba(218, 176, 103, 0.3);
+    background: rgba(20, 25, 35, 0.6);
+    aspect-ratio: 1;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.gallery-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(218, 176, 103, 0.2);
+}
+
+.gallery-item img,
+.gallery-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.gallery-item--video {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery-item--video video {
+    width: 100%;
+    height: 100%;
+}
+
+.video-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    font-family: "Cinzel Decorative", serif;
+    font-size: 0.85rem;
+    color: #dab067;
+    text-align: center;
+}
+
+/* Responsiv design för mindre skärmar */
+@media (max-width: 768px) {
+    .recipe-content {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}
+
+.content-back:hover {
+    filter: brightness(1.12);
+}
+
+/* Klickbara steg med kryssruta och överstrykning */
+.recipe-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.recipe-checkitem {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(0.92rem, 2vw, 1.1rem);
+    color: rgba(247, 240, 224, 0.9);
+    line-height: 1.5;
+    cursor: pointer;
+    user-select: none;
+}
+
+.recipe-checkitem__input {
+    appearance: none;
+    -webkit-appearance: none;
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    margin: 2px 0 0;
+    border: 2px solid rgba(241, 226, 181, 0.8);
+    border-radius: 4px;
+    background: rgba(7, 7, 7, 0.55);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+    position: relative;
+}
+
+.recipe-checkitem__input:checked {
+    background: #f6efcf;
+    border-color: #f6efcf;
+}
+
+.recipe-checkitem__input:checked::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 0px;
+    width: 5px;
+    height: 9px;
+    border: solid #111;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.recipe-checkitem__text {
+    flex: 1;
+    padding-top: 1px;
+    transition: opacity 160ms ease, text-decoration-color 160ms ease;
+}
+
+.recipe-checkitem__input:checked + .recipe-checkitem__text {
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+    text-decoration-color: rgba(246, 239, 207, 0.95);
+    opacity: 0.72;
+}
+
+/* Enkel in-animation för menyval */
+@keyframes menuReveal {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes pulseText {
+    0%,
+    100% {
+        transform: scale(1);
+        text-shadow: 0 0 0 rgba(255, 252, 245, 0.3), 0 0 7px rgba(252, 244, 226, 0.42);
+    }
+
+    50% {
+        transform: scale(1.04);
+        text-shadow: 0 0 12px rgba(255, 255, 248, 0.95), 0 0 20px rgba(255, 243, 214, 0.88);
+    }
+}
+
+/* Mobilanpassning för startsida och recept */
+@media (max-width: 640px) {
+    .scene {
+        padding: 14px;
+    }
+
+    .hero-text {
+        top: 31%;
+        width: 92vw;
+    }
+
+    .hero-text h1 {
+        font-size: clamp(3rem, 20vw, 5.2rem);
+    }
+
+    .hero-text p {
+        font-size: 0.64rem;
+    }
+
+    .game-menu {
+        left: 10px;
+        top: auto;
+        bottom: 10px;
+        width: min(92vw, 280px);
+        padding: 0;
+    }
+
+    .start-btn {
+        top: 51%;
+        min-width: min(92vw, 290px);
+        padding: 10px 18px;
+    }
+
+    .start-btn.is-visible {
+        transform: translate(-50%, -50%);
+    }
+
+    .menu-item {
+        font-size: clamp(0.7rem, 3.4vw, 1rem);
+    }
+
+    .game-menu.is-visible {
+        animation: mobileMenuReveal 280ms ease;
+    }
+
+    .top-menu {
+        padding: 12px 12px;
+        gap: 10px;
+    }
+
+    .top-menu__nav {
+        gap: 10px 16px;
+    }
+
+    .top-menu__link {
+        font-size: 0.7rem;
+    }
+
+    .recipe-checkitem {
+        gap: 8px;
+        font-size: 0.88rem;
+    }
+
+    .recipe-checkitem__input {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+@keyframes mobileMenuReveal {
+    from {
+        opacity: 0;
+        transform: translateY(-6px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Market-sidan med retro-dialog */
+.retro-dialog {
+    width: min(95vw, 620px);
+    background: linear-gradient(135deg, rgba(30, 25, 20, 0.9) 0%, rgba(20, 18, 15, 0.95) 100%);
+    border: 4px solid #3a3228;
+    box-shadow: 
+        0 0 0 2px #2a2420,
+        0 8px 20px rgba(0, 0, 0, 0.7),
+        inset 0 1px 0 rgba(100, 90, 75, 0.3);
+    position: relative;
+    padding: 0;
+}
+
+.retro-dialog::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 2px,
+            rgba(255, 255, 255, 0.02) 2px,
+            rgba(255, 255, 255, 0.02) 4px
+        ),
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(255, 255, 255, 0.02) 2px,
+            rgba(255, 255, 255, 0.02) 4px
+        );
+    pointer-events: none;
+    border-radius: 2px;
+}
+
+.retro-dialog__banner {
+    background: linear-gradient(to right, #2a2420 0%, #3a3228 50%, #2a2420 100%);
+    border-bottom: 3px solid #4a4038;
+    padding: 12px 18px;
+    text-align: center;
+    position: relative;
+    box-shadow: inset 0 1px 0 rgba(100, 90, 75, 0.4);
+}
+
+.retro-dialog__title {
+    margin: 0;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+    color: #d4af8f;
+    font-weight: 700;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8), 1px 1px 0 rgba(100, 90, 75, 0.5);
+    letter-spacing: 0.1em;
+}
+
+.retro-dialog__content {
+    padding: 18px 20px;
+    border-bottom: 2px solid #4a4038;
+    background: linear-gradient(to bottom, #e9e0cc 0%, #e0d7be 100%);
+}
+
+.recipe-section-title {
+    margin: 22px 0 10px;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
+    color: #dab067;
+    letter-spacing: 0.06em;
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.4);
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.retro-dialog__text {
+    margin: 0;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    color: #3a3228;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.05em;
+    font-style: italic;
+}
+
+.retro-dialog__options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    padding: 2px;
+    background: #2a2420;
+}
+
+.retro-option {
+    text-decoration: none;
+    padding: 14px 12px;
+    border: none;
+    background: linear-gradient(to bottom, #e9e0cc 0%, #e0d7be 100%);
+    color: #3a3228;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(0.9rem, 1.6vw, 1rem);
+    cursor: pointer;
+    transition: all 160ms ease;
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.4), 0 2px 4px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    border-radius: 1px;
+    position: relative;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.retro-option:hover {
+    background: linear-gradient(to bottom, #f0e9d5 0%, #e9dfcf 100%);
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.6), 0 2px 6px rgba(0, 0, 0, 0.5);
+    transform: translateY(-1px);
+}
+
+.retro-option:active {
+    transform: translateY(1px);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.retro-option span {
+    display: block;
+}
+
+.content-page .content-back {
+    margin-top: 24px;
+    display: inline-block;
+}
+
+.category-links {
+    display: grid;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.category-link {
+    display: block;
+    padding: 14px 16px;
+    border: 1px solid rgba(241, 226, 181, 0.28);
+    border-radius: 12px;
+    background: rgba(10, 14, 18, 0.72);
+    color: #f6efcf;
+    text-decoration: none;
+    transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.category-link:hover {
+    transform: translateY(-1px);
+    border-color: rgba(241, 226, 181, 0.6);
+    background: rgba(14, 18, 24, 0.88);
+}
+
+.category-link__title {
+    display: block;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: #dab067;
+}
+
+.category-link__text {
+    display: block;
+    margin-top: 6px;
+    font-family: "Cinzel Decorative", serif;
+    font-size: 0.92rem;
+    color: rgba(247, 240, 224, 0.82);
+    line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+    .retro-dialog {
+        width: min(97vw, 320px);
+    }
+
+    .retro-dialog__banner {
+        padding: 10px 14px;
+    }
+
+    .retro-dialog__title {
+        font-size: clamp(1rem, 3vw, 1.3rem);
+    }
+
+    .retro-dialog__content {
+        padding: 14px 16px;
+        min-height: 50px;
+    }
+
+    .retro-dialog__text {
+        font-size: clamp(0.9rem, 2.5vw, 1rem);
+    }
+
+    .retro-option {
+        padding: 12px 10px;
+        font-size: clamp(0.8rem, 2vw, 0.9rem);
+        min-height: 50px;
+    }
+}
+
+    /* Tre-rätters-sidan med menyblock */
+.menu-card {
+    width: min(95vw, 900px);
+    padding: clamp(24px, 5vw, 40px);
+    border: 1px solid rgba(241, 226, 181, 0.35);
+    border-radius: 18px;
+    background: rgba(8, 12, 16, 0.72);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+}
+
+.menu-card__title {
+    margin: 0 0 32px 0;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: #f6efcf;
+    text-align: center;
+    letter-spacing: 0.08em;
+}
+
+.three-course-menu {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(32px, 6vw, 48px);
+    margin-bottom: 32px;
+}
+
+.menu-course {
+    border-top: 2px solid rgba(218, 176, 103, 0.4);
+    padding-top: clamp(20px, 4vw, 32px);
+}
+
+.menu-course:first-child {
+    border-top: none;
+    padding-top: 0;
+}
+
+.menu-course__title {
+    margin: 0 0 24px 0;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(1.4rem, 2.8vw, 1.8rem);
+    color: #dab067;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+.menu-course__items {
+    list-style: none;
+    margin: 0;
+    padding: 0 clamp(12px, 3vw, 24px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(18px, 3vw, 24px);
+}
+
+.course-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding-bottom: clamp(12px, 2vw, 16px);
+    border-bottom: 1px dotted rgba(218, 176, 103, 0.25);
+}
+
+.course-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.course-item__name {
+    flex: 1 1 auto;
+    text-align: center;
+    font-family: "Cinzel Decorative", serif;
+    /* Larger, like Dagens rätt */
+    font-size: clamp(1rem, 2.6vw, 1.4rem);
+    color: #f6efcf;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    display: block;
+    max-width: 100%;
+}
+
+
+
+/* Remove blue shadow and make the whole recipe row act like a single inline item */
+.course-item__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 160ms ease;
+    transform-origin: left center;
+    width: 100%;
+}
+
+.course-item__link .course-item__name {
+    transition: inherit;
+}
+
+.course-item__link:hover {
+    transform: scale(1.06);
+}
+
+/* Arrow styling removed */
+
+.daily-menu-card {
+    min-height: min(62vh, 480px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.daily-menu__items {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 26px;
+    padding: 0;
+}
+
+.daily-menu__item {
+    width: min(100%, 680px);
+    border-bottom: 0;
+    padding: 0;
+    justify-content: center;
+}
+
+.daily-menu__name {
+    text-align: center;
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    line-height: 1.55;
+    max-width: 34ch;
+}
+
+.daily-menu__link {
+    display: inline-block;
+    text-decoration: none;
+    color: #f6efcf;
+    transition: filter 160ms ease, transform 160ms ease, font-size 160ms ease;
+}
+
+.daily-menu__link:hover {
+    filter: brightness(1.14);
+    transform: translateY(-1px) scale(1.1);
+}
+
+.daily-menu__link:visited {
+    color: #f6efcf;
+}
+
+/* Mobilanpassning för menyblocken */
+@media (max-width: 640px) {
+    .menu-card {
+        width: min(95vw, 360px);
+        padding: clamp(18px, 4vw, 28px);
+    }
+
+    .menu-card__title {
+        font-size: clamp(1.3rem, 5vw, 1.8rem);
+        margin-bottom: 24px;
+    }
+
+    .three-course-menu {
+        gap: clamp(24px, 5vw, 32px);
+        margin-bottom: 24px;
+    }
+
+    .menu-course__title {
+        font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+        margin-bottom: 16px;
+    }
+
+    .menu-course__items {
+        gap: clamp(14px, 2vw, 18px);
+    }
+
+    .course-item {
+        gap: 4px;
+        padding-bottom: 10px;
+    }
+
+    .course-item__name {
+        font-size: clamp(0.9rem, 2.2vw, 1.1rem);
+    }
+
+    .daily-menu-card {
+        min-height: min(56vh, 440px);
+    }
+
+    .daily-menu__name {
+        font-size: clamp(0.95rem, 2.8vw, 1.1rem);
+    }
+}
+
+/* Upphovsrätt & Copyright styling */
+.copyright-section {
+    margin: 22px 0;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(218, 176, 103, 0.3);
+}
+
+.copyright-section:last-of-type {
+    border-bottom: none;
+}
+
+.copyright-section h2 {
+    margin: 0 0 12px 0;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+    color: #dab067;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.copyright-section p {
+    margin: 10px 0;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+    color: rgba(247, 240, 224, 0.9);
+    line-height: 1.65;
+}
+
+.copyright-section strong {
+    color: #dab067;
+    font-weight: 700;
+}
+
+.copyright-link {
+    color: #dab067;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(218, 176, 103, 0.6);
+    transition: color 160ms ease, border-color 160ms ease;
+}
+
+.copyright-link:hover {
+    color: #f6efcf;
+    border-color: rgba(246, 239, 207, 0.8);
+}
+
+/* Kontaktformulär styling */
+.contact-section {
+    margin: 24px 0;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(218, 176, 103, 0.3);
+}
+
+.contact-section:last-of-type {
+    border-bottom: none;
+}
+
+.contact-section h2 {
+    margin: 0 0 16px 0;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+    color: #dab067;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+}
+
+.contact-label {
+    color: #dab067;
+    font-weight: 700;
+    min-width: 100px;
+}
+
+.contact-link {
+    color: #f6efcf;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(246, 239, 207, 0.5);
+    transition: color 160ms ease, border-color 160ms ease;
+}
+
+.contact-link:hover {
+    color: #dab067;
+    border-color: rgba(218, 176, 103, 0.8);
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+    color: #dab067;
+    font-weight: 700;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 10px 12px;
+    border: 1px solid rgba(218, 176, 103, 0.5);
+    border-radius: 6px;
+    background: rgba(8, 12, 16, 0.5);
+    color: #f6efcf;
+    font-family: "Cinzel Decorative", serif;
+    font-size: 0.95rem;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #dab067;
+    box-shadow: 0 0 12px rgba(218, 176, 103, 0.3);
+}
+
+.submit-btn {
+    padding: 12px 24px;
+    border: 1px solid rgba(218, 176, 103, 0.7);
+    border-radius: 6px;
+    background: rgba(218, 176, 103, 0.15);
+    color: #dab067;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 160ms ease;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.submit-btn:hover {
+    background: rgba(218, 176, 103, 0.25);
+    color: #f6efcf;
+    box-shadow: 0 4px 12px rgba(218, 176, 103, 0.2);
+}
+
+.submit-btn:disabled {
+    cursor: wait;
+    opacity: 0.85;
+    transform: none;
+}
+
+.form-status {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    z-index: 50;
+    min-width: min(90vw, 280px);
+    padding: 12px 18px;
+    margin: 0;
+    border: 1px solid rgba(241, 226, 181, 0.45);
+    border-radius: 999px;
+    background: rgba(8, 12, 16, 0.92);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+    font-family: "Cinzel Decorative", serif;
+    font-size: 0.95rem;
+    color: #f6efcf;
+    opacity: 0;
+    transform: translate(-50%, 18px);
+    transition: opacity 180ms ease, transform 180ms ease;
+    pointer-events: none;
+    text-align: center;
+}
+
+.form-status.is-visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.form-status.is-success {
+    color: #9ed7a7;
+    text-shadow: 0 0 10px rgba(158, 215, 167, 0.2);
+}
+
+/* Checkboxes för ingredienser */
+.ingredients-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.ingredients-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+.ingredients-list input[type="checkbox"] {
+    margin-top: 4px;
+    cursor: pointer;
+    min-width: 20px;
+    accent-color: #dab067;
+}
+
+.ingredients-list label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+    color: rgba(247, 240, 224, 0.9);
+    line-height: 1.8;
+    flex: 1;
+}
+
+.ingredients-list input[type="checkbox"]:checked + span {
+    text-decoration: line-through;
+    color: rgba(247, 240, 224, 0.5);
+}
+
+.submit-btn:active {
+    transform: scale(0.98);
+}
